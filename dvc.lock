@@ -1,0 +1,97 @@
+schema: '2.0'
+stages:
+  data_preprocessing:
+    cmd: python .\src\data_preprocessing.py data/raw/data.csv
+    deps:
+    - path: .\data\raw\data.csv
+      hash: md5
+      md5: dac3fd7ac8a87f7ec2c100bcbbf8aa3c
+      size: 512945
+    - path: .\src\data_preprocessing.py
+      hash: md5
+      md5: 561034977df5e6d35c5b3afe1e7f0efe
+      size: 4387
+    params:
+      params.yaml:
+        data_preprocessing.MinMaxScaler.feature: tempo
+        data_preprocessing.SimpleImputer.feature:
+        - Romantic Ballad
+        - Dance Pop
+        - Sad Ballad
+        - Folk Fusion
+        - Classical Fusion
+        - Qawwali
+        - Sufi
+        - Party Anthem
+        - Patriotic
+        - Rock Fusion
+        - Item Number
+        - Lyrical Rap
+        - Devotional
+        - Ghazal
+        - Retro
+        - Comedy
+        - Motivational
+        - Wedding
+        - Festival
+        data_preprocessing.SimpleImputer.fill_value: 0
+        data_preprocessing.SimpleImputer.strategy: constant
+        data_preprocessing.feature:
+        - acousticness
+        - danceability
+        - energy
+        - speechiness
+        - tempo
+        - valence
+        - liveness
+        - loudness
+        - mode
+        - Romantic Ballad
+        - Dance Pop
+        - Sad Ballad
+        - Folk Fusion
+        - Classical Fusion
+        - Qawwali
+        - Sufi
+        - Party Anthem
+        - Patriotic
+        - Rock Fusion
+        - Item Number
+        - Lyrical Rap
+        - Devotional
+        - Ghazal
+        - Retro
+        - Comedy
+        - Motivational
+        - Wedding
+        - Festival
+        - artist_name
+        data_preprocessing.pipe.feature: artist_name
+    outs:
+    - path: .\data\processed
+      hash: md5
+      md5: cabed492cb71ae86376015314a8c44a1.dir
+      size: 432261
+      nfiles: 1
+    - path: .\preprocessor
+      hash: md5
+      md5: 62549ec8cea5e10f79a144d49aa1a37f.dir
+      size: 3785
+      nfiles: 1
+  model_training:
+    cmd: python .\src\model_training.py data/processed/data.csv
+    deps:
+    - path: .\data\processed\data.csv
+      hash: md5
+      md5: ab6336afcbfec65845ce2ce2712b582e
+      size: 432261
+    - path: .\src\model_training.py
+      hash: md5
+      md5: 49a3cc2ada190ee2bb65fbf52b9421ac
+      size: 829
+    outs:
+    - path: .\models
+      hash: md5
+      md5: 2f8aea1613cfc9a4aa8d6a735b1faec9.dir
+      size: 16704364
+      nfiles: 1

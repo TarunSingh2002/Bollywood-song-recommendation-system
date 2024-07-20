@@ -1,0 +1,61 @@
+data_preprocessing:
+  feature: 
+    - acousticness
+    - danceability
+    - energy
+    - speechiness
+    - tempo
+    - valence
+    - liveness
+    - loudness
+    - mode
+    - Romantic Ballad
+    - Dance Pop
+    - Sad Ballad
+    - Folk Fusion
+    - Classical Fusion
+    - Qawwali
+    - Sufi 
+    - Party Anthem 
+    - Patriotic
+    - Rock Fusion
+    - Item Number
+    - Lyrical Rap
+    - Devotional
+    - Ghazal
+    - Retro
+    - Comedy
+    - Motivational
+    - Wedding 
+    - Festival
+    - artist_name
+
+  SimpleImputer:
+    strategy: constant
+    fill_value: 0
+    feature: 
+      - Romantic Ballad
+      - Dance Pop
+      - Sad Ballad
+      - Folk Fusion
+      - Classical Fusion
+      - Qawwali
+      - Sufi
+      - Party Anthem
+      - Patriotic
+      - Rock Fusion
+      - Item Number
+      - Lyrical Rap
+      - Devotional
+      - Ghazal
+      - Retro
+      - Comedy
+      - Motivational 
+      - Wedding
+      - Festival
+
+  MinMaxScaler:
+    feature: tempo
+
+  pipe:
+    feature: artist_name
