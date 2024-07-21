@@ -3,4 +3,5 @@ Pillow
 numpy
 pandas 
 scikit-learn
-gunicorn
+mangum
+asgiref

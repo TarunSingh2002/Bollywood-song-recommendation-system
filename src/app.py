@@ -2,11 +2,14 @@ import os
 import random
 import pickle
 import pandas as pd
-from flask import Flask, render_template, request, jsonify
+from mangum import Mangum
+from asgiref.wsgi import WsgiToAsgi
+from flask import Flask, render_template, request, jsonify, send_from_directory
 
-app = Flask(__name__)
-df = pd.read_csv(r'data\raw\data.csv')
-with open(r'models\similarity.pkl', 'rb') as f:
+app = Flask(__name__, static_url_path='/static', static_folder='static')
+
+df = pd.read_csv(r'data/raw/data.csv')
+with open(r'models/similarity.pkl', 'rb') as f:
     similarity = pickle.load(f)
 
 if not os.path.exists('static/images'):
@@ -53,5 +56,15 @@ def get_image(song_name):
     image_url = f'/static/images/{song_index}.jpg'
     return jsonify({'image_url': image_url})
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+@app.route('/static/css/<path:filename>')
+def serve_css(filename):
+    return send_from_directory(os.path.join(app.root_path, 'static', 'css'), filename)
+
+@app.route('/static/images/<path:filename>')
+def serve_images(filename):
+    return send_from_directory(os.path.join(app.root_path, 'static', 'images'), filename)
+
+def handler(event, context):
+    asgi_app = WsgiToAsgi(app)
+    asgi_handler = Mangum(asgi_app)
+    return asgi_handler(event, context)
