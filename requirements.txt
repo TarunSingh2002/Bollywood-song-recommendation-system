@@ -6,3 +6,4 @@ scikit-learn
 mangum
 asgiref
 flask_cors
+requests
