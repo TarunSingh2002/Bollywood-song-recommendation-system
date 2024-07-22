@@ -38,8 +38,5 @@ data/processed
 **/dvc.yaml
 **/params.yaml
 **/README.Docker.md
-src/__init__.py
-src/base.py
-src/data_preprocessing.py
-src/logger.py
-src/model_training.py
+**/src
+**/static
