@@ -3,10 +3,12 @@ import random
 import pickle
 import pandas as pd
 from mangum import Mangum
+from flask_cors import CORS
 from asgiref.wsgi import WsgiToAsgi
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
+CORS(app)
 
 # Your S3 bucket base URL
 S3_BASE_URL = "https://my-bollywood-static-files.s3.amazonaws.com/static"
@@ -45,16 +47,20 @@ def index():
     selected_song_image = f'{S3_BASE_URL}/images/{df[df["song_name"] == song_name].index[0]}.jpg'
     return render_template('index.html', song_name=song_name, recommendations=recommendations, all_songs=all_songs, selected_song_image=selected_song_image)
 
-@app.route('/get_image/<song_name>', methods=['GET'])
+@app.route('/get_image/<path:song_name>', methods=['GET'])
 def get_image(song_name):
-    song_index = df[df['song_name'] == song_name].index[0]
-    image_url = f'{S3_BASE_URL}/images/{song_index}.jpg'
-    return jsonify({'image_url': image_url})
+    try:
+        song_index = df[df['song_name'] == song_name].index[0]
+        image_url = f'{S3_BASE_URL}/images/{song_index}.jpg'
+        return jsonify({'image_url': image_url})
+    except Exception as e:
+        app.logger.error(f"Error fetching image for song {song_name}: {e}")
+        return jsonify({'error': 'Image not found'}), 404
 
 def handler(event, context):
     asgi_app = WsgiToAsgi(app)
     asgi_handler = Mangum(asgi_app)
     return asgi_handler(event, context)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)

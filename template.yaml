@@ -8,8 +8,13 @@ Resources:
       ImageUri: bollywoodsongrecommendationsystem:local
       Timeout: 30
       Events:
-        Api:
+        ApiRoot:
           Type: Api
           Properties:
             Path: /
             Method: ANY
+        ApiGetImage:
+          Type: Api
+          Properties:
+            Path: /get_image/{song_name}
+            Method: GET

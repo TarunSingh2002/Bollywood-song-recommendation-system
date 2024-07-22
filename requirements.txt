@@ -6,3 +6,4 @@ scikit-learn
 mangum
 asgiref
 boto3
+flask_cors
