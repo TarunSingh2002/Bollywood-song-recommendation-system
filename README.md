@@ -1,10 +1,15 @@
 # Bollywood Song Recommendation System
 
-Welcome to the Bollywood Song Recommendation System! This project uses machine learning to recommend Bollywood songs based on user preferences.
+Welcome to the Bollywood Song Recommendation System! This project uses machine learning to recommend Bollywood songs based on user-selected songs.
 
-![Project Image 1](![lp0b66aa4h execute-api us-east-1 amazonaws com_Prod_ (1)](https://github.com/user-attachments/assets/6699c350-42ed-41b6-8cb4-e4b63edbfb69))
-
-![Project Image 2](![lp0b66aa4h execute-api us-east-1 amazonaws com_Prod_ (1)](https://github.com/user-attachments/assets/a79f313e-2420-4adc-8bf1-e33c1c62cea8))
+<table border="2" style="width:100%; border-collapse: collapse;">
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/6deccd80-3de7-470a-95ae-ba19b910dd95" alt="Project Image 1" style="width:100%;"></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/74a78ed2-5c62-4e27-b5c3-91c7bde856a3" alt="Project Image 2" style="width:100%;"></td>
+  </tr>
+</table>
 
 **[Check out the live project here!](https://lp0b66aa4h.execute-api.us-east-1.amazonaws.com/Prod/)**
 
@@ -16,18 +21,17 @@ Welcome to the Bollywood Song Recommendation System! This project uses machine l
 4. [Installation](#installation)
 5. [Usage](#usage)
 6. [Deployment](#deployment)
-7. [Contributing](#contributing)
-8. [License](#license)
+7. [License](#license)
 
 ## Project Overview
 
-The Bollywood Song Recommendation System is designed to recommend Bollywood songs to users based on their preferences. The system preprocesses the song data, trains a model, and provides a web interface for users to get song recommendations.
+The Bollywood Song Recommendation System is designed to recommend Bollywood songs to users based on their selected songs. The system preprocesses the song data, trains a model, and provides a web interface for users to get song recommendations.
 
 ## Features
 
 - **Data Preprocessing:** Clean and preprocess raw song data.
 - **Model Training:** Train a recommendation model using machine learning techniques.
-- **Web Interface:** A Flask-based web interface for users to input their preferences and get song recommendations.
+- **Web Interface:** A Flask-based web interface for users to select a song and get recommendations for 10 similar songs.
 - **Dockerized:** The project is containerized using Docker for easy deployment.
 - **AWS Deployment:** Deployed on AWS Lambda and API Gateway for scalable and serverless architecture.
 
@@ -66,3 +70,72 @@ The Bollywood Song Recommendation System is designed to recommend Bollywood song
 ├── params.yaml            <- Parameters file.
 ├── README.Docker.md       <- README for Docker setup.
 ├── template.yaml          <- AWS Lambda and API Gateway template.yaml.
+```
+## Installation
+
+To get a copy of the project up and running on your local machine, follow these steps:
+
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/yourusername/bollywood-song-recommendation-system.git
+    cd bollywood-song-recommendation-system
+    ```
+
+2. **Set up a virtual environment:**
+    ```bash
+    conda create --name song-recommendation-system python=3.9
+    conda activate song-recommendation-system
+    ```
+
+3. **Install the required dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. **Build and run the Docker container:**
+    ```bash
+    docker build -t song-recommendation-system .
+    docker run -p 5000:5000 song-recommendation-system
+    ```
+
+## Usage
+
+1. **Run the Flask application:**
+    ```bash
+    python app.py
+    ```
+
+2. **Open your browser and go to:**
+    ```
+    http://localhost:5000
+    ```
+
+3. **Select a song from the dropdown and get recommendations for similar songs.**
+
+## Deployment
+
+### Deploying to AWS Lambda and API Gateway
+
+1. **Ensure you have AWS CLI installed and configured:**
+    ```bash
+    aws configure
+    ```
+
+2. **Build and push the Docker image to Amazon ECR:**
+    ```bash
+    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <your-account-id>.dkr.ecr.us-east-1.amazonaws.com
+    docker tag song-recommendation-system:latest <your-account-id>.dkr.ecr.us-east-1.amazonaws.com/song-recommendation-system:latest
+    docker push <your-account-id>.dkr.ecr.us-east-1.amazonaws.com/song-recommendation-system:latest
+    ```
+
+3. **Deploy the application using AWS SAM:**
+    ```bash
+    sam build --template-file template.yaml
+    sam deploy --guided
+    ```
+
+4. **Follow the prompts to complete the deployment.**
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/TarunSingh2002/bollywood-song-recommendation-system/blob/master/LICENSE.txt) file for details.
