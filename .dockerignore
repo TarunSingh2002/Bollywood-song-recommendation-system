@@ -33,10 +33,10 @@ data/processed
 **/logs
 **/notebooks
 **/preprocessor
-**/src
-**/static
 **/.dvcignore
 **/dvc.lock
 **/dvc.yaml
 **/params.yaml
 **/README.Docker.md
+**/src
+**/static
