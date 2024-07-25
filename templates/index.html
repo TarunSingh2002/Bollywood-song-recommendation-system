@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bollywood Song Recommendation System</title>
     <link rel="stylesheet" href="https://my-bollywood-static-files.s3.amazonaws.com/static/css/style.css">
-    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="https://my-bollywood-static-files.s3.amazonaws.com/static/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -44,13 +44,16 @@
         </div>
     </div>
     <script>
+        const songsData = {{ songs_data | tojson }};
+        const S3_BASE_URL = "{{ S3_BASE_URL }}";
         function updateImage() {
             const songName = document.getElementById('song_name').value;
-            fetch(`/get_image/${songName}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('selected_song_image').src = data.image_url;
-                });
+            const songData = songsData.find(song => song.song_name === songName);
+            if (songData) {
+                const songIndex = songsData.indexOf(songData);
+                const imageUrl = `${S3_BASE_URL}/images/${songIndex}.jpg`;
+                document.getElementById('selected_song_image').src = imageUrl;
+            }
         }
     </script> 
 </body>

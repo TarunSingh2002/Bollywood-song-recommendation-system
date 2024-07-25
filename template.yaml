@@ -1,20 +1,63 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
+
 Resources:
-  SongRecommenderFunction:
+  MyApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+
+  BollywoodSongRecommenderFunction:
     Type: AWS::Serverless::Function
     Properties:
       PackageType: Image
-      ImageUri: bollywoodsongrecommendationsystem:local
-      Timeout: 30
+      ImageUri: {account-id}.dkr.{region}.amazonaws.com/bollywoodsongrecommendationsystem:latest
+      Timeout: 900
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Environment:
+        Variables:
+          S3_BASE_URL: "https://my-bollywood-static-files.s3.amazonaws.com/static"
       Events:
         ApiRoot:
           Type: Api
           Properties:
+            RestApiId: !Ref MyApi
             Path: /
             Method: ANY
-        ApiGetImage:
-          Type: Api
-          Properties:
-            Path: /get_image/{song_name}
-            Method: GET
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaExecutionPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                Resource: arn:aws:s3:::my-bollywood-static-files/*
+              - Effect: Allow
+                Action:
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchGetImage
+                  - ecr:BatchCheckLayerAvailability
+                Resource: arn:aws:ecr:us-east-1:{account-id}:repository/bollywoodsongrecommendationsystem
+
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
