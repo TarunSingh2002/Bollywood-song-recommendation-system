@@ -1,5 +1,7 @@
 # Bollywood Song Recommendation System
 
+**[Check out the live project here!](https://lp0b66aa4h.execute-api.us-east-1.amazonaws.com/Prod/)**
+
 Welcome to the Bollywood Song Recommendation System! This project uses machine learning to recommend Bollywood songs based on user-selected songs.
 
 <table border="2" style="width:100%; border-collapse: collapse;">
@@ -10,8 +12,6 @@ Welcome to the Bollywood Song Recommendation System! This project uses machine l
     <td><img src="https://github.com/user-attachments/assets/74a78ed2-5c62-4e27-b5c3-91c7bde856a3" alt="Project Image 2" style="width:100%;"></td>
   </tr>
 </table>
-
-**[Check out the live project here!](https://lp0b66aa4h.execute-api.us-east-1.amazonaws.com/Prod/)**
 
 ## Table of Contents
 
